@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="ISO-8859-1">
+    <title>Edit Book</title>
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+          crossorigin="anonymous">
+	
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	
+    <style>
+        .head {
+            width: 500px;
+            margin-top: 50px;
+            border: 3px solid;
+            padding-top: 15px;
+            padding-bottom: 15px;
+            background-color: #F9F9F9;
+        }
+
+        body {
+            background-color: #CFBD8C;
+        }
+
+        .error {
+            color: red;
+        }
+
+    </style>
+</head>
+<body>
+<div class="container head">
+    <h1 class="text-center">Edit Book</h1>
+    <form th:object="${book}" th:action="@{/edit/{id}(id=${book.bookcode})}"  th:method="PUT">
+        <div class="mb-3">
+            <label class="form-label">Image</label>
+            <input type="file" name="fileImage" id="fileImage" accept="image/png, image/jpeg" disabled>
+            <p><img id="thumbnail" alt="Logo Preview" width="300" height="300"></p>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Title</label>
+            <input type="text" class="form-control" th:field="*{title}" disabled>
+            <p th:if="${#fields.hasErrors('title')}" class="error" th:errors="*{title}" />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Author</label>
+            <input type="text" class="form-control click_on"  th:field="*{author}" disabled>
+            <p th:if="${#fields.hasErrors('author')}" class="error" th:errors="*{author}" />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Category</label>
+            <input type="text" class="form-control click_on" th:field="*{category}" disabled >
+            <p th:if="${#fields.hasErrors('category')}" class="error" th:errors="*{category}" />
+        </div>
+			<div class="mb-3">
+				<label class="form-label">Release Date</label> <input type="text"
+					class="form-control click_on" th:field="*{releasedate}" disabled>
+				<p th:if="${#fields.hasErrors('releasedate')}" class="error"
+					th:errors="*{releasedate}" />
+			</div>
+			<div class="mb-3">
+				<label class="form-label">Number of Pages</label> <input type="text"
+					class="form-control click_on" th:field="*{page}" disabled >
+				<p th:if="${#fields.hasErrors('page')}" class="error"
+					th:errors="*{page}" />
+			</div>
+			<button type="submit" class="btn btn-success">Submit</button>
+        <a th:href="@{/books}" class="btn btn-secondary">Cancel</a>
+        <button type="button" class="btn btn-primary" onclick="enableInput()">Edit</button>
+    </form>
+</div>
+
+	<script>
+    	fileImage.onchange = evt => {
+  	  	const [file] = fileImage.files
+  	  	if (file) {
+  	    	thumbnail.src = URL.createObjectURL(file)
+  	 	 }
+  		}
+		
+		function enableInput() {
+			$("input").prop('disabled', false);
+		}
+	</script>
+</body>
+</html>
